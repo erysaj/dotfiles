@@ -1,0 +1,36 @@
+#!/bin/sh
+#
+# dotify
+#
+# Move config into .dotfiles
+
+fail () {
+    echo $@
+    exit
+}
+
+src=$1
+topic=$2
+if [ ! -e "$src" ]; then
+    fail "$src does not exist"
+fi
+
+if [ -L "$src" ]; then
+    fail "$src is already linked"
+fi
+
+filename=$(basename "$src")
+filename=${filename#"."}
+if [ -n "$topic" ]; then
+    dst="$ZSH/$topic/$filename.symlink"
+else
+    dst="$ZSH/$filename.symlink"
+fi
+
+
+# TODO: prompt to overwrite
+mv "$src" "$dst"
+ln -s "$dst" "$src"
+
+echo "Linked $src to $dst"
+
