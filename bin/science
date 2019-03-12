@@ -1,0 +1,2 @@
+export PATH=$(brew --prefix)/anaconda3/bin:$PATH
+
